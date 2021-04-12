@@ -1,38 +1,71 @@
 package ee.bcs.valiit.tasks;
 
+import java.util.Arrays;
+import java.util.concurrent.LinkedTransferQueue;
+
 public class Lesson2 {
 
     public static void main(String[] args) {
+        //System.out.println(sum(new int[]{1, 2, 3, 4}));
+        //multiplyTable(5, 5);
+        fibonacci(1);
+
+
         // TODO siia saab kirjutada koodi testimiseks
     }
 
     // TODO loe funktsiooni sisendiks on täisarvude massiiv
     // TODO tagasta massiiv mille elemendid on vastupidises järiekorras
     public static int[] reverseArray(int[] inputArray) {
-        return new int[1];
+        int[] peegel = new int[inputArray.length];
+        for (int i = 0; i < inputArray.length; i++) {
+            peegel[i] = inputArray[(inputArray.length - 1) - i];
+        }
+        return peegel;
     }
+
 
     // TODO tagasta massiiv mis sisaldab n esimest paaris arvu
     // Näide:
     // Sisend 5
     // Väljund 2 4 6 8 10
     public static int[] evenNumbers(int n) {
-        return new int[1];
+        int[] paaris = new int[n];
+        for (int i = 0; i < n; i++) {
+            paaris[i] = (i + 1) * 2;
+        }
+        return paaris;
     }
 
     // TODO, leia massiivi kõige väiksem element
-    public static int min(int[] x){
-        return 0;
+    public static int min(int[] x) { // 4 2 5 1 9
+        int minElement = x[0];
+        for (int i = 1; i < x.length; i++) {
+            if (x[i] < minElement) {
+                minElement = x[i];
+            }
+        }
+        return minElement;
     }
 
     // TODO, leia massiivi kõige suurem element
-    public static int max(int[] x){
-        return 0;
+    public static int max(int[] x) {
+        int maxElement = x[0];
+        for (int i = 1; i < x.length; i++) {
+            if (x[i] > maxElement) {
+                maxElement = x[i];
+            }
+        }
+        return maxElement;
     }
 
     // TODO, leia massiivi kõigi elementide summa
-    public static int sum(int[] x){
-        return 0;
+    public static int sum(int[] x) {
+        int summa = x[0];
+        for (int i = 1; i < x.length; i++) {
+            summa = summa + x[i];
+        }
+        return summa;
     }
 
     // TODO trüki välja korrutustabel mis on x ühikut lai ja y ühikut kõrge
@@ -50,6 +83,12 @@ public class Lesson2 {
     // mis on ja mis võiks olla. Äkki tuleb mõni idee
     public static void multiplyTable(int x, int y) {
 
+        for (int j = 1; j <= y; j++) {
+            for (int i = 1; i <= x; i++) {
+                System.out.print(i * j + " ");
+            }
+            System.out.println();
+        }
     }
 
     // TODO
@@ -57,8 +96,18 @@ public class Lesson2 {
     // 0, 1, 1, 2, 3, 5, 8, 13, 21
     // Tagasta fibonacci jada n element. Võid eeldada, et n >= 0
     public static int fibonacci(int n) {
-
-        return 0;
+        int a = 0;
+        int b = 1;
+        int fib = 0;
+        System.out.println(fib); // if(n==0){
+        //       return 0;         sellisel juhul fib=1 ja i=1
+        for (int i = 0; i < n; i++) {
+            a = b;
+            b = fib;
+            fib = a + b;
+            System.out.println(fib);
+        }
+        return fib;
     }
 
     // TODO
@@ -76,9 +125,50 @@ public class Lesson2 {
     // Tagastada tuleb kõige pikem number
     // Näiteks sisendi 10 ja 20 puhul on vastus 20
 
+
+    //tehke tsükkel x-st y-ni
+    //kutsuge iga väärtuse korral välja meetodit getSeqLength
+    //salvestage maha kõige suurem ja funktsiooni lõpus tagastage see
     public static int sequence3n(int x, int y) {
-        return 0;
+        int max = 0;
+        for (int i = x; i <= y; i++) {
+            int count = 1;
+            int value = i;
+            while (value > 1) {
+                if (value % 2 == 0) {
+                    value = value / 2;
+                } else {
+                    value = value * 3 + 1;
+                }
+                count++;
+            }
+            if (count > max) {
+                max = count;
+            }
+        }
+        return max;
     }
 
 
+        // x = 1 - 4
+        //x = 2 - 1
+        //x = 3 - 10
+        //x = 4 - 2
+        //x = 5 - 16
+        //x = 6 - 3
+        //x = 7 - 22
+        //x = 8 - 4
+        //  public static int nextElement(int x){
+        //tagasta sequence järgmine element
+        // for(i = 0; i)
+        //  }
+        //x = 1 - 1
+        //x = 2 - 2
+        //x = 4 - 3
+        //x = 5 - 6
+        //kutsuge välja meetodit nextElement kuni vastus tuleb 1
+        //tagastage korduste arv + 1
+        //  public static int getSeqLength(int x){
+
+        // }
 }

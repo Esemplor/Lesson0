@@ -9,6 +9,7 @@ public class Lesson3Hard {
     // ja kasutaja peab saama uuesti arvata
     // numbri ära aramise korral peab programm välja trükkima mitu katset läks numbri ära arvamiseks
     public static void main(){
+
         Random random = new Random();
         int i = random.nextInt(100);
         System.out.println(i);

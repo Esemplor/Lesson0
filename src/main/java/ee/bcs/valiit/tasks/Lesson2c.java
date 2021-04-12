@@ -2,7 +2,11 @@ package ee.bcs.valiit.tasks;
 
 public class Lesson2c {
 
+
     public static void main(String[] args) {
+        // nextElement(10);
+      //  System.out.println(getSeqLength(5));
+        System.out.println(sequence3n(10,20));
 
     }
 
@@ -27,7 +31,14 @@ public class Lesson2c {
     // kutsuge iga väärtuse korral välja meetodit getSeqLength
     // salvestage maha kõige suurem ja funktsiooni lõpus tagastage see
     public static int sequence3n(int x, int y) {
-        return 0;
+        int pikimjada = 0;
+        while (x<=y){
+            if(getSeqLength(x)>pikimjada){
+                pikimjada = getSeqLength(x);
+            }
+            x++;
+        }
+        return pikimjada;
     }
 
     // TODO 2
@@ -35,17 +46,31 @@ public class Lesson2c {
     // x = 2 -> 2
     // kutsuge välja meetodit nextElement nii kaua kuni vastus tuleb 1
     // tagastage korduste arv + 1
-    public static int getSeqLength(int x){
-        return 0;
+    public static int getSeqLength(int x) {
+        System.out.println("Kord "+1+" väärtus: "+x);
+        int kordustearv = 1;
+        while (x != 1) {
+            x = nextElement(x);
+            System.out.println("Kord " + (kordustearv+1) + " väärtus: " + x);
+            kordustearv++;
+        }
+        return kordustearv;
     }
+
 
     // TODO 1
     // x = 1 -> 4
     // x = 2 -> 1
     // x = 3 -> 10
-    public static int nextElement(int x){
+    public static int nextElement(int x) {
+        if (x % 2 == 0) {
+            x = x / 2;
+        } else {
+            x = x * 3 + 1;
+        }
+        return x;
+
         // TODO tagasta sequence järgmine element
-        return 0;
     }
 
 }

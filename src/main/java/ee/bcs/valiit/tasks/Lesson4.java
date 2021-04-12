@@ -1,17 +1,33 @@
 package ee.bcs.valiit.tasks;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Lesson4 {
     // Store account nr as a key and account balance as value
     // HashMap<String, Account> accountBalanceMap = new HashMap<>();
+    private static Map<String, Double> accountBalanceMap = new HashMap<>();
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         while (true){
+            System.out.println("Insert command");
             String line = scanner.nextLine();
             if (line.equalsIgnoreCase("exit")){
                 break;
+            }else if ("line".equalsIgnoreCase("createAccount")){
+                System.out.println("Please enter account nr");
+                String accountNr = scanner.nextLine();
+                System.out.println("Please enter inital balance");
+                Double balance = scanner.nextDouble();
+                scanner.nextLine();
+                accountBalanceMap.put(accountNr, balance);
+            }else if(line.equalsIgnoreCase("getBalance")){
+                System.out.println("Please enter account nr");
+                String accountNr = scanner.nextLine();
+                System.out.println("Konto balanss on: "+accountBalanceMap.get(accountNr));
             }
             // TODO 1
             // Add command: "createAccount ${accountNr}"
