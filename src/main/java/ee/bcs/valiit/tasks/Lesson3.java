@@ -1,5 +1,8 @@
 package ee.bcs.valiit.tasks;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Lesson3 {
     public static void main(String[] args) {
         //System.out.println(sum(new int[]{1, 2, 3, 4}));
@@ -8,6 +11,8 @@ public class Lesson3 {
         System.out.println(reverseString("Tere"));
         System.out.println(isPrime(1));
         isPrime(5);
+        System.out.print(sort(new int[]{8, 5, 2, 1, 11}));
+        System.out.println(evenFibonacci(9));
 
 
         // TODO siia saab kirjutada koodi testimiseks
@@ -30,8 +35,8 @@ public class Lesson3 {
     // TODO tagasta string tagurpidi
     public static String reverseString(String a) {
         String b = "";
-       for(int i = 0; i <a.length();i++){
-           b= b+a.charAt(a.length()-1-i);
+        for (int i = 0; i < a.length(); i++) {
+            b = b + a.charAt(a.length() - 1 - i);
         }
         return b;
     }
@@ -52,20 +57,59 @@ public class Lesson3 {
     // TODO sorteeri massiiv suuruse järgi.
     // TODO kasuta tsükleid, ära kasuta ühtegi olemasolevat sort funktsiooni
     public static int[] sort(int[] a) {
-        int [] segamini = new int [a.length];
-//leida minimaalne a massiivis ning paigutada uue arrey esimeseks.
+        int temp = 0;
+        System.out.println("Algne array: ");
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + " ");
+        }
+        for (int i = 0; i < a.length; i++) {  //leida minimaalne a massiivis ning paigutada uue arrey esimeseks.
+            for (int j = i + 1; j < a.length; j++) {
+                if (a[i] > a[j]) {
+                    temp = a[i];
+                    a[i] = a[j];
+                    a[j] = temp;
+                }
+            }
 
-        return new int[0];
+        }
+        System.out.println("\nArray sordituna: ");
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i] + " ");
+        }
+        return a;
     }
 
     public static int evenFibonacci(int x) {
         // TODO liida kokku kõik paaris fibonacci arvud kuni numbrini x
-        return 0;
+
+        int sum = 0;
+        int a = 0;
+        int b = 1;
+        int fib = 0;
+        for (int i = 0; i < x; i++) {
+            a = b;
+            b = fib;
+            fib = a + b;
+            if (fib % 2 == 0&& fib<=x) {
+                sum =sum+ fib;
+            }
+            System.out.println(sum);
+        }
+        return sum;
     }
 
     public static String morseCode(String text) {
+
         // TODO kirjuta programm, mis tagastab sisestatud teksti morse koodis (https://en.wikipedia.org/wiki/Morse_code)
         // Kasuta sümboleid . ja - ning eralda kõik tähed tühikuga
+        Map<String, String> morseCode = new HashMap<String, String>();
+        morseCode.put("h","....");
+        morseCode.put("e",".");
+        morseCode.put("l",".-..");
+        morseCode.put("o","---");
+        morseCode.put("s","...");
+
+
         return "";
     }
 }

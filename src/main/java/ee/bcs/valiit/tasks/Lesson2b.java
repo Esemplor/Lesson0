@@ -1,5 +1,7 @@
 package ee.bcs.valiit.tasks;
 
+import org.springframework.core.style.ToStringCreator;
+
 import java.util.Arrays;
 
 public class Lesson2b {
@@ -15,11 +17,12 @@ public class Lesson2b {
     // näiteks
     // sisend: 5
     // trüki välja: 1 2 3 4 5
-    public static void exercise1(int n) {
+    public static int [] exercise1(int n) {
         int[] arvud = new int[n];
         for (int i = 1; i <= n; i++) {
-            System.out.println(i);
+            arvud[i-1] = i;
         }
+        return arvud;
     }
 
     // TODO tagasta massiiv milles oleks numbrid 1,2,3,4,5
@@ -52,15 +55,17 @@ public class Lesson2b {
     // Väljund: -3, -2, -1, 0
     public static int[] decreasingArray(int n) {
         if (n >= 0) {
-            int[] array = new int[n+1];
+            int[] array = new int[n + 1];
             for (int i = 0; i < n; i++) {
                 array[i] = n - i;
-            }return array;
+            }
+            return array;
         } else {
-            int[] array = new int[-n+1];
-            for (int i = n; i<=0; i++) {
-                array[-n+i] =i;
-            }return array;
+            int[] array = new int[-n + 1];
+            for (int i = n; i <= 0; i++) {
+                array[-n + i] = i;
+            }
+            return array;
         }
     }
 
@@ -69,8 +74,9 @@ public class Lesson2b {
     // tagasta massiiv pikkusega n, mille kõigi elementide väärtused on 3
     public static int[] yl3(int n) {
         int[] kolm = new int[n];
-        for(int i=0; i<n; i++){
-            kolm[i]=3;
-        }return kolm;
+        for (int i = 0; i < n; i++) {
+            kolm[i] = 3;
+        }
+        return kolm;
     }
 }

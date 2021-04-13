@@ -2,12 +2,18 @@ package ee.bcs.valiit.tests;
 
 import java.util.Arrays;
 
+
 public class Test1 {
     public static void main(String[] args) {
         System.out.println(jagub(14));
         System.out.println(Arrays.toString(addToArray(new int[]{1, 2, 3, 4, 5}, 5)));
 
 
+    }
+
+    public static int [] naide(int[] x) {
+        x[0]=0;
+        return x;
     }
 
     //    ÜL 1

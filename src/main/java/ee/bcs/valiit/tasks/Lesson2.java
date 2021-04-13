@@ -8,7 +8,7 @@ public class Lesson2 {
     public static void main(String[] args) {
         //System.out.println(sum(new int[]{1, 2, 3, 4}));
         //multiplyTable(5, 5);
-        fibonacci(1);
+        fibonacci(9);
 
 
         // TODO siia saab kirjutada koodi testimiseks
@@ -147,9 +147,9 @@ public class Lesson2 {
             }
         }
         return max;
-    }
 
 
+        }
         // x = 1 - 4
         //x = 2 - 1
         //x = 3 - 10
@@ -171,4 +171,4 @@ public class Lesson2 {
         //  public static int getSeqLength(int x){
 
         // }
-}
+    }
