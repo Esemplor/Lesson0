@@ -1,14 +1,12 @@
 package ee.bcs.valiit.kontroller;
 
 import ee.bcs.valiit.solution.SolutionLesson1;
-import ee.bcs.valiit.tasks.Lesson1;
-import ee.bcs.valiit.tasks.Lesson2;
-import ee.bcs.valiit.tasks.Lesson2b;
-import ee.bcs.valiit.tasks.Lesson3;
+import ee.bcs.valiit.tasks.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Random;
 
 import javax.lang.model.element.NestingKind;
 
@@ -137,7 +135,7 @@ public class TestController {
         return Lesson3.reverseString(a);
     }
 
-    @GetMapping("stuff/isPrime")
+    @GetMapping("stuff/isPrime") //http://localhost:8080/stuff/isPrime?a=5
     public boolean isPrime(@RequestParam("a") int a) {
         return Lesson3.isPrime(a);
     }
@@ -146,5 +144,32 @@ public class TestController {
     public int[] sort(@PathVariable("a") int[] a) {
         return Lesson3.sort(a);
     }
+
+    @GetMapping("stuff/evenFibonacci")
+    public int evenFibonacci(@RequestParam("a") int a) {
+        return Lesson3.evenFibonacci(a);
+    }
+
+    @GetMapping("stuff/morse/{tekst}")
+    public String morse(@PathVariable("tekst") String tekst) {
+        return Lesson3.morseCode(tekst);
+    }
+//public String Lesson3Hard;
+//    Random random = new Random();
+//    int randomNumber = random.nextInt(100);
+//    @GetMapping("stuff/random")
+//    public String random(@RequestParam("a")int a){
+//        int count = 1;
+//        if (a != randomNumber) {
+//            if (a > randomNumber) {
+//                count++;
+//                return "Number, mis otsid, on madalam kui "+a;
+//            } else if (a < randomNumber) {
+//                count++;
+//                return "Number, mis otsid, on suurem kui "+a;
+//            }
+//        }
+//        return a+" on õige vastus! Pakkumiste arv: "+count;
+
 
 }

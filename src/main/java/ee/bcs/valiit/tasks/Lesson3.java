@@ -102,14 +102,22 @@ public class Lesson3 {
 
         // TODO kirjuta programm, mis tagastab sisestatud teksti morse koodis (https://en.wikipedia.org/wiki/Morse_code)
         // Kasuta sümboleid . ja - ning eralda kõik tähed tühikuga
-        Map<String, String> morseCode = new HashMap<String, String>();
-        morseCode.put("h","....");
-        morseCode.put("e",".");
-        morseCode.put("l",".-..");
-        morseCode.put("o","---");
-        morseCode.put("s","...");
+        Map<Character, String> morseMap = new HashMap<>();
+        morseMap.put('h',"....");
+        morseMap.put('e',".");
+        morseMap.put('l',".-..");
+        morseMap.put('o',"---");
+        morseMap.put('s',"...");
+
+//        for(int i = 0; 0<text.length();i++){
+//            char c = text.charAt(i);
+//        }
+        String resultString = "";
+        for(char c : text.toCharArray()){
+            resultString+=morseMap.get(c)+" ";
+        }
 
 
-        return "";
+        return resultString.trim();
     }
 }

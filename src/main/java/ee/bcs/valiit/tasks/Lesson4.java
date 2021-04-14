@@ -29,6 +29,7 @@ public class Lesson4 {
                 Double balance = scanner.nextDouble();
                 scanner.nextLine();
                 accountBalanceMap.put(accountNr, balance);
+                System.out.println("Account created! Account balance: "+accountBalanceMap.get(accountNr));
 
                 // TODO 2
                 // Add command: "getBalance ${accountNr}"
