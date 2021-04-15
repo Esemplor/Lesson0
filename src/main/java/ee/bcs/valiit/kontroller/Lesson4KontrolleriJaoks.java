@@ -13,7 +13,8 @@ public class Lesson4KontrolleriJaoks {
         private static Scanner scanner = new Scanner(System.in);
 
         public static void main(String[] args) {
-            Scanner scanner = new Scanner(System.in);
+
+    //        public static String random(String x) {
             while (true) {
                 System.out.println("Insert command");
                 String line = scanner.nextLine();

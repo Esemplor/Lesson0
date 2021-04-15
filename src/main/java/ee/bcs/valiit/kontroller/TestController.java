@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Random;
 
 import javax.lang.model.element.NestingKind;
@@ -154,6 +155,18 @@ public class TestController {
     public String morse(@PathVariable("tekst") String tekst) {
         return Lesson3.morseCode(tekst);
     }
+
+//    //http://localhost:8080/midagi/3/5?a=1&b=9
+//    @GetMapping("midagi/{x}/{y}/")
+//    public int midagi(@PathVariable("x") int x,
+//                      @PathVariable("y") int y,
+//                      @RequestParam("a") int a,
+//                      @RequestParam("b") int b) {
+//        return x;
+//    }
+
+
+}
 //public String Lesson3Hard;
 //    Random random = new Random();
 //    int randomNumber = random.nextInt(100);
@@ -172,4 +185,4 @@ public class TestController {
 //        return a+" on õige vastus! Pakkumiste arv: "+count;
 
 
-}
+
