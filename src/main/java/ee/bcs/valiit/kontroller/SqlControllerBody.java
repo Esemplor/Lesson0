@@ -9,79 +9,107 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class SqlController {
+public class SqlControllerBody {
 
 
-    private static Map<String, Double> accountBalanceMap = new HashMap<>();
+    private static Map<String, CreateAccountRequestLisa> accountBalanceMap = new HashMap<>();
+    private static CreateAccountRequestLisa accountInfo = new CreateAccountRequestLisa();
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
-    @GetMapping("stuff/bank3/createAccount/{accountNr}/{balance}")
-    public void createAccount(@PathVariable("accountNr") String accountNr,
-                              @PathVariable("balance") Double balance) {
-        String sql = "insert into account(account_number, balance) values (:dbAccNo, :dbAmount)";
+    @GetMapping("stuff/bank4/createAccount/{accountNr}/{name}/{balance}")
+    public String createAccount(@PathVariable("accountNr") String accountNr,
+                                @PathVariable("name") String name,
+                                @PathVariable("balance") Double balance) {
+        accountInfo.setAccountNr(accountNr);
+        accountInfo.setName(name);
+        accountInfo.setBalance(balance);
+        accountInfo.setLocked(false);
+        accountBalanceMap.put(accountNr, accountInfo);
+        String sql = "insert into account(account_number, customer_name, balance) values (:dbAccNo, :dbName, :dbAmount)";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dbAccNo", accountNr);
+        paramMap.put("dbName", name);
         paramMap.put("dbAmount", balance);
         jdbcTemplate.update(sql, paramMap);
-
+        return "Konto nr: " + accountNr + " loodud. Konto jääk: " + balance + "EUR.";
     }
 
-    @PostMapping("stuff/bank3/account")
-    public void createAccount2(@RequestBody CreateAccountRequest request) {
-        String sql = "insert into account(account_number, balance) values (:dbAccNo, :dbAmount)";
+    @GetMapping("stuff/bank4/account")
+    public Map<String, CreateAccountRequestLisa> accountList() {
+        return accountBalanceMap;
+    }
+
+    @PostMapping("stuff/bank4/createAccount")
+    public String createAccount2(@RequestBody CreateAccountRequestLisa request) {
+        accountBalanceMap.put(request.getAccountNr(), accountInfo);
+        String sql = "insert into account(account_number,customer_name,balance) values (:dbAccNo,:dbName,:dbAmount)";
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("dbAccNo", request.getAccountNumber());
-        paramMap.put("dbAmount", request.getAmount());
+        paramMap.put("dbAccNo", request.getAccountNr());
+        paramMap.put("dbName", request.getName());
+        paramMap.put("dbAmount", request.getBalance());
         jdbcTemplate.update(sql, paramMap);
+        return "Konto nr: " + request.getAccountNr() + "loodud.";
     }
 
-    @PutMapping("stuff/bank3/lock/{accountNr}")
-    public String lock(@PathVariable("accountNr") String accountNr) {
-        String sql = "update account set locked = true where account_number = :dbAccNo";
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("dbAccNo", accountNr);
-        jdbcTemplate.update(sql, paramMap);
-        return "Konto: " + accountNr + " on nüüd lukus.";
+//    @PutMapping("stuff/bank4/lock/{accountNr}")
+//    public String lock(@PathVariable("accountNr") String accountNr,
+//                       @RequestBody CreateAccountRequestLisa request) {
+//        Boolean locked = request.getLocked();
+//        locked = true;
+//        accountBalanceMap.put(accountNr, accountBalanceMap.get(accountNr).getLocked());
+//        String sql = "select locked from account where account_number = :dbAccNo";
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("dbAccNo", accountNr);
+//        Boolean lukus = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
+//        lukus = true;
+//        String sql2 = "update account set locked = :lukus where account_number = :dbAccNo";
+//        paramMap.put("lukus", lukus);
+//        jdbcTemplate.update(sql2, paramMap);
+//        return "Konto: " + accountNr + " on nüüd lukus.";
+//    }
 
-    }
-
-    @PutMapping("stuff/bank3/unlock/{accountNr}")
+    @PutMapping("stuff/bank4/unlock/{accountNr}")
     public String unlock(@PathVariable("accountNr") String accountNr) {
-        String sql = "update account set locked = false where account_number = :dbAccNo";
+        String sql = "select locked from account where account_number = :dbAccNo";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dbAccNo", accountNr);
-        jdbcTemplate.update(sql, paramMap);
+        Boolean unlock = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
+        unlock = false;
+        String sql2 = "update account set locked = :unlock where account_number = :dbAccNo";
+        paramMap.put("unlock", unlock);
+        jdbcTemplate.update(sql2, paramMap);
         return "Konto: " + accountNr + " on nüüd lukust lahti.";
 
     }
 
-    @GetMapping("stuff/bank3/getBalance/{accountNumber}")
-    public String getBalance(@PathVariable("accountNumber") String accountNr) {
+    @GetMapping("stuff/bank4/getBalance/{accountNumber}")
+    public String getBalance(@PathVariable("accountNumber") String accountNr,
+                             @RequestBody CreateAccountRequestLisa requestLisa) {
         String sql = "select locked from account where account_number = :dbAccNo";
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("dbAccNo", accountNr);
-        Boolean locked = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
-        if (locked ==true) {
+        paramMap.put("dbAccNo", requestLisa.getAccountNr());
+        Boolean lukus = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
+        if (lukus = true) {
             return "Ei saa toiminguid teha, konto: " + accountNr + " on lukus.";
         } else {
             String sql2 = "select balance from account where account_number = :dbAccNo";
             Map<String, Object> paramMap2 = new HashMap<>();
-            paramMap2.put("dbAccNo", accountNr);
+            paramMap.put("dbAccNo", requestLisa.getAccountNr());
             Double balance = jdbcTemplate.queryForObject(sql2, paramMap2, Double.class);
             return "Current balance: " + balance;
         }
     }
 
-    @PutMapping("stuff/bank3/account/deposit/{accountNumber}/{deposit}")
+    @PutMapping("stuff/bank4/account/deposit/{accountNumber}/{deposit}")
     public String deposit(@PathVariable("accountNumber") String accountNumber,
                           @PathVariable("deposit") Double deposit) {
         String sql = "select locked from account where account_number = :dbAccNo";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dbAccNo", accountNumber);
         Boolean lukus = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
-        if (lukus==true) {
+        if (lukus = true) {
             return "Ei saa toiminguid teha, konto: " + accountNumber + " on lukus.";
         } else if (accountNumber == null) {
             return "Viga konto numbris.";
@@ -100,14 +128,14 @@ public class SqlController {
         }
     }
 
-    @PutMapping("stuff/bank3/account/withdraw/{accountNumber}/{withdraw}")
+    @PutMapping("stuff/bank4/account/withdraw/{accountNumber}/{withdraw}")
     public String withdraw(@PathVariable("accountNumber") String accountNumber,
                            @PathVariable("withdraw") Double withdraw) {
         String sql = "select locked from account where account_number = :dbAccNo";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dbAccNo", accountNumber);
         Boolean lukus = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
-        if (lukus==true) {
+        if (lukus = true) {
             return "Ei saa toiminguid teha, konto: " + accountNumber + " on lukus.";
         } else if (accountNumber == null) {
             return "Viga konto numbris.";
@@ -130,7 +158,7 @@ public class SqlController {
         }
     }
 
-    @PutMapping("stuff/bank3/account/transfer/{firstAccountNr}/{secondAccountNr}/{transfer}")
+    @PutMapping("stuff/bank4/account/transfer/{firstAccountNr}/{secondAccountNr}/{transfer}")
     public String transfer(@PathVariable("firstAccountNr") String firstAccountNr,
                            @PathVariable("secondAccountNr") String secondAccountNr,
                            @PathVariable("transfer") Double transfer) {
@@ -141,12 +169,11 @@ public class SqlController {
         paramMap.put("dbAccNo2", secondAccountNr);
         Boolean lukus = jdbcTemplate.queryForObject(sql, paramMap, Boolean.class);
         Boolean lukus2 = jdbcTemplate.queryForObject(sql2, paramMap, Boolean.class);
-        if (lukus==true) {
+        if (lukus = true) {
             return "Ei saa toiminguid teha, konto: " + firstAccountNr + " on lukus.";
-        } else if (lukus2==true){
+        } else if (lukus2 = true) {
             return "Ei saa toiminguid teha, konto: " + secondAccountNr + " on lukus.";
-        }
-        else if (firstAccountNr == null) {
+        } else if (firstAccountNr == null) {
             return "Viga konto numbris.";
         } else if (secondAccountNr == null) {
             return "Viga konto numbris.";

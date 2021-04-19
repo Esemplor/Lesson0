@@ -10,16 +10,16 @@ public class Lesson4ControllerLisa {
 
     private static Map<String, CreateAccountRequestLisa> accountBalanceMap = new HashMap<>();
 
-    @GetMapping("stuff/bank2/createAccount/{name}/{iban}/{balance}")
+    @GetMapping("stuff/bank2/createAccount/{name}/{accountNr}/{balance}")
     public void createAccount(@PathVariable("name") String name,
-                              @PathVariable("iban") String iban,
+                              @PathVariable("accountNr") String accountNr,
                               @PathVariable("balance") Double balance) {
         CreateAccountRequestLisa account = new CreateAccountRequestLisa();
         account.setName(name);
-        account.setIban(iban);
+        account.setAccountNr(accountNr);
         account.setBalance(balance);
         account.setLocked(false);
-        accountBalanceMap.put(iban, account);
+        accountBalanceMap.put(accountNr, account);
     }
 
     @GetMapping("stuff/bank2/account")
@@ -29,11 +29,12 @@ public class Lesson4ControllerLisa {
 
     @PostMapping("stuff/bank2/createAccount")
     public void createAccount2(@RequestBody CreateAccountRequestLisa request) {
-        accountBalanceMap.put(request.getIban(), request);
+        accountBalanceMap.put(request.getAccountNr(), request);
     }
 
 //    @PutMapping("stuff/bank2/block/{iban}")
-//    public String block(@PathVariable("iban") String iban, @RequestBody CreateAccountRequestLisa request) {
+//    public String block(@PathVariable("iban") String iban,
+//                        @RequestBody CreateAccountRequestLisa request) {
 //        if (accountBalanceMap.get(iban) == null) {
 //            return "Invalid account number";
 //        }
@@ -42,27 +43,29 @@ public class Lesson4ControllerLisa {
 //    }
 
 
-    @GetMapping("stuff/bank2/getBalance/{iban}")
-    public String getBalance(@PathVariable("iban") String iban) {
-        if (accountBalanceMap.get(iban) == null) {
+    @GetMapping("stuff/bank2/getBalance/{accountNr}")
+    public String getBalance(@PathVariable("accountNr") String accountNr) {
+        if (accountBalanceMap.get(accountNr) == null) {
             return "Invalid account number";
-        } else if (accountBalanceMap.get(iban).getLocked()) {
+        } else if (accountBalanceMap.get(accountNr).getLocked()) {
             return "Account is locked";
         }
-        return "Account: " + iban + " balance is: " + accountBalanceMap.get(iban).getBalance();
+        return "Account: " + accountNr + " balance is: " + accountBalanceMap.get(accountNr).getBalance();
     }
 
-//    @PutMapping("stuff/bank2/deposit/{deposit}")
-//    public String deposit(@PathVariable("deposit") Double deposit, @RequestBody CreateAccountRequestLisa request) {
-//        if (accountBalanceMap.get(request.getIban()) == null) {
-//            return "Invalid account number";
-//        } else if (accountBalanceMap.get(request.getIban()).getLocked()) {
-//            return "Account is locked";
-//        } else if (deposit > 0) {
-//            accountBalanceMap.put(request.getIban(), accountBalanceMap.get(request.getIban() + deposit));
-//            return "Account: " + accountBalanceMap.get(request.getIban()) + " new balance is: " + accountBalanceMap.get(request.getIban());
-//        }
-//    }
+    @PutMapping("stuff/bank2/deposit/{deposit}")
+    public String deposit(@PathVariable("deposit") Double deposit, @RequestBody CreateAccountRequestLisa request) {
+        if (accountBalanceMap.get(request.getAccountNr()) == null) {
+            return "Invalid account number";
+        } else if (accountBalanceMap.get(request.getAccountNr()).getLocked()) {
+            return "Account is locked";
+        } else if (deposit < 0) {
+            return "Invalid deposit amount.";
+        } else {
+            accountBalanceMap.put(request.getAccountNr(), accountBalanceMap.get(request.getAccountNr() + deposit));
+            return "Account: " + accountBalanceMap.get(request.getAccountNr()) + " new balance is: " + accountBalanceMap.get(request.getAccountNr());
+        }
+    }
 
 
 //    @GetMapping("stuff/bank/getBalance/{accountNumber}")

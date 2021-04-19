@@ -2,7 +2,7 @@ package ee.bcs.valiit.kontroller;
 
 public class CreateAccountRequestLisa {
     private String name;
-    private String iban;
+    private String accountNr;
     private Double balance;
     private Boolean locked;
 
@@ -14,12 +14,12 @@ public class CreateAccountRequestLisa {
         this.name = name;
     }
 
-    public String getIban() {
-        return iban;
+    public String getAccountNr() {
+        return accountNr;
     }
 
-    public void setIban(String iban) {
-        this.iban = iban;
+    public void setAccountNr(String accountNr) {
+        this.accountNr = accountNr;
     }
 
     public Double getBalance() {
