@@ -4,6 +4,27 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <changeSet id="123" author="Arvo">
+        <createTable tableName="account">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints unique="true"/>
+            </column>
+            <column name="account_number" type="text"/>
+            <column name="client_name" type="text"/>
+            <column name="balance" type="numeric"/>
+            <column name="locked" type="boolean"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="124" author="Arvo">
+        <createTable tableName="customers">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints unique="true"/>
+            </column>
+            <column name="name" type="text"/>
+            <column name="age" type="numeric"/>
+            <column name="address" type="text"/>
+        </createTable>
+    </changeSet>
     <changeSet id="1" author="Siim">
         <createTable tableName="author">
             <column name="id" type="int" autoIncrement="true">
