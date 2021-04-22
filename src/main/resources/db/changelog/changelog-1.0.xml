@@ -4,33 +4,34 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="1" author="Siim">
-        <createTable tableName="author">
+    <changeSet id="123" author="Arvo">
+        <createTable tableName="account">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
+                <constraints unique="true"/>
             </column>
-            <column name="name" type="text"/>
-        </createTable>
-
-        <createTable tableName="book">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
+            <column name="account_number" type="text">
+                <constraints primaryKey="true" unique="true"/>
             </column>
-            <column name="description" type="text"/>
-            <column name="name" type="text"/>
-            <column name="author_id" type="int">
-                <constraints foreignKeyName="fk_book_author" references="author(id)"/>
-            </column>
+            <column name="client_name" type="text"/>
+            <column name="balance" type="numeric"/>
+            <column name="locked" type="boolean" defaultValue="false"/>
         </createTable>
     </changeSet>
-    <changeSet id="2020-01-26 add employee" author="Siim Rebane">
-        <createTable tableName="employee">
+    <changeSet id="124" author="Arvo">
+        <createTable tableName="customers">
             <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true"/>
+                <constraints unique="true"/>
+            </column>
+            <column name="account_number" type="text">
+                <constraints unique="true" primaryKey="true"/>
             </column>
             <column name="name" type="text"/>
+            <column name="age" type="numeric"/>
             <column name="address" type="text"/>
-            <column name="phone" type="text"/>
         </createTable>
     </changeSet>
+
+    <!--            <column name="author_id" type="int">-->
+    <!--                <constraints foreignKeyName="fk_book_author" references="author(id)"/>-->
+
 </databaseChangeLog>
