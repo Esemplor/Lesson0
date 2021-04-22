@@ -26,14 +26,19 @@ public class BankRepository {
         jdbcTemplate.update(sql, paramMap);
     }
 
-//        public void createAccount2(){
+    //        public void createAccount2(){
 //        String sql = "insert into account(account_number, balance) values (:dbAccNo, :dbAmount)";
 //        Map<String, Object> paramMap = new HashMap<>();
 //        paramMap.put("dbAccNo", request.getAccountNumber());
 //        paramMap.put("dbAmount", request.getAmount());
 //        jdbcTemplate.update(sql, paramMap);
 //    }
-
+//    public String exists(String accountNr) {
+//        String sql = "select account_number from account where account_number = :dbAccno";
+//        Map<String, Object> paramMap = new HashMap<>();
+//        paramMap.put("dbAccNo", accountNr);
+//        return jdbcTemplate.queryForObject(sql, paramMap, String.class);
+//    }
 
     public void lock(String accountNr) {
         String sql = "update account set locked = true where account_number = :dbAccNo";
@@ -62,6 +67,7 @@ public class BankRepository {
         paramMap.put("dbAccNo", accountNr);
         return jdbcTemplate.queryForObject(sql, paramMap, Double.class);
     }
+
     public void updateBalance(String accountNr, Double balanceUpdate) {
         String sql = "update account set balance = :dbBalance where account_number = :dbAccNo";
         Map<String, Object> paramMap = new HashMap<>();

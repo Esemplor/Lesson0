@@ -1,11 +1,13 @@
 package ee.bcs.valiit.service;
 
 
+import ee.bcs.valiit.exception.ApplicationException;
 import ee.bcs.valiit.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.PublicKey;
+import java.util.Objects;
 
 @Service
 public class BankService {
@@ -42,7 +44,7 @@ public class BankService {
         if (accountNr == null) {
             return "Viga konto numbris";
         } else if (islocked) {
-            return "Ei saa toiminguid teha, konto: " + accountNr + " on lukus.";
+            throw new ApplicationException("Ei saa toiminguid teha, konto: " + accountNr + " on lukus.");
         } else {
             Double balance = bankRepository.getBalance(accountNr);
             return "Konto: " + accountNr + " jääk on: " + balance;
@@ -54,9 +56,9 @@ public class BankService {
         if (accountNr == null) {
             return "Viga konto numbris";
         } else if (islocked) {
-            return "Ei saa toiminguid teha, konto: " + accountNr + " on lukus.";
+            throw new ApplicationException("Ei saa toiminguid teha, konto: " + accountNr + " on lukus.");
         } else if (deposit < 0) {
-            return "Kontole laetav summa ei või olla negatiivne number";
+            throw new ApplicationException("Kontole laetav summa ei või olla negatiivne number");
         } else {
             Double balance = bankRepository.getBalance(accountNr);
             Double newBalance = balance + deposit;
@@ -71,11 +73,11 @@ public class BankService {
         if (accountNr == null) {
             return "Viga konto numbris";
         } else if (islocked) {
-            return "Ei saa toiminguid teha, konto: " + accountNr + " on lukus.";
+            throw new ApplicationException("Ei saa toiminguid teha, konto: " + accountNr + " on lukus.");
         } else if (withdraw < 0) {
-            return "Kontolt võetav summa ei või olla negatiivne number";
+            throw new ApplicationException("Kontolt võetav summa ei või olla negatiivne number");
         } else if (withdraw > bankRepository.getBalance(accountNr)) {
-            return "Kontol pole piisavalt vahendeid";
+            throw new ApplicationException("Kontol pole piisavalt vahendeid");
         } else {
             Double balance = bankRepository.getBalance(accountNr);
             Double newBalance = balance - withdraw;
@@ -92,13 +94,13 @@ public class BankService {
         } else if (secondAccountNr == null) {
             return "Viga konto numbris";
         } else if (islocked) {
-            return "Ei saa toiminguid teha, konto: " + firstAccountNr + " on lukus.";
+            throw new ApplicationException("Ei saa toiminguid teha, konto: " + firstAccountNr + " on lukus.");
         } else if (islocked2) {
-            return "Ei saa toiminguid teha, konto: " + secondAccountNr + " on lukus.";
+            throw new ApplicationException("Ei saa toiminguid teha, konto: " + secondAccountNr + " on lukus.");
         } else if (transfer < 0) {
-            return "Ülekantav summa ei või olla negatiivne number";
+            throw new ApplicationException("Ülekantav summa ei või olla negatiivne number") ;
         } else if (transfer > bankRepository.getBalance(firstAccountNr)) {
-            return "Kontol pole piisavalt vahendeid";
+            throw new ApplicationException("Kontol pole piisavalt vahendeid");
         } else {
             Double balance = bankRepository.getBalance(firstAccountNr);
             Double newBalance = balance - transfer;
