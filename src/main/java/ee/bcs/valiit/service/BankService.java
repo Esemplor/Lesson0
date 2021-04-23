@@ -2,6 +2,8 @@ package ee.bcs.valiit.service;
 
 
 import ee.bcs.valiit.exception.ApplicationException;
+import ee.bcs.valiit.hibernate.Account;
+import ee.bcs.valiit.hibernate.HibernateAccountRepository;
 import ee.bcs.valiit.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class BankService {
     @Autowired
     private BankRepository bankRepository;
 
+    @Autowired
+    private HibernateAccountRepository hibernateAccountRepository;
+
     public void createAccount(String accountNr, String name, Double balance, Boolean locked) {
         bankRepository.createAccount(accountNr, name, balance, locked);
     }
@@ -24,31 +29,40 @@ public class BankService {
     }
 
     public String lock(String accountNr) {
-        if (accountNr == null) {
-            return "Viga konto numbris";
-        } else
-            bankRepository.lock(accountNr);
-            return "Konto: "+accountNr+" on nüüd lukus.";
+//        if (bankRepository.exists(accountNr) == false) {
+//            return "Viga konto numbris";
+//        } else
+        Account account = hibernateAccountRepository.getOne(accountNr);
+        account.setLocked(true);
+        hibernateAccountRepository.save(account);
+//            bankRepository.lock(accountNr);
+        return "Konto: " + accountNr + " on nüüd lukus.";
     }
 
     public String unlock(String accountNr) {
         if (accountNr == null) {
             return "Viga konto numbris";
-        } else
-            bankRepository.unlock(accountNr);
-            return "Konto: "+accountNr+" on nüüd lukust lahti.";
+        } else {
+            Account account = hibernateAccountRepository.getOne(accountNr);
+            account.setLocked(false);
+            hibernateAccountRepository.save(account);
+//            bankRepository.unlock(accountNr);
+            return "Konto: " + accountNr + " on nüüd lukust lahti.";
+        }
     }
 
     public String getBalance(String accountNr) {
+        Account account = hibernateAccountRepository.getOne(accountNr);
         Boolean islocked = bankRepository.islocked(accountNr);
         if (accountNr == null) {
             return "Viga konto numbris";
         } else if (islocked) {
             throw new ApplicationException("Ei saa toiminguid teha, konto: " + accountNr + " on lukus.");
-        } else {
-            Double balance = bankRepository.getBalance(accountNr);
-            return "Konto: " + accountNr + " jääk on: " + balance;
+//        } else {
+//            Double balance = bankRepository.getBalance(accountNr);
+//            return "Konto: " + accountNr + " jääk on: " + balance;
         }
+        return "Konto: " + accountNr + " balanss on: " + account.getBalance();
     }
 
     public String deposit(String accountNr, Double deposit) {
@@ -60,10 +74,16 @@ public class BankService {
         } else if (deposit < 0) {
             throw new ApplicationException("Kontole laetav summa ei või olla negatiivne number");
         } else {
-            Double balance = bankRepository.getBalance(accountNr);
-            Double newBalance = balance + deposit;
-            bankRepository.updateBalance(accountNr, newBalance);
-            return "Summa " + deposit + " on kontole: " + accountNr + " juurde lisatud. Uus kontojääk on: " + newBalance;
+            Account account = hibernateAccountRepository.getOne(accountNr);
+            Double balance = account.getBalance() + deposit;
+            account.setBalance(balance);
+            hibernateAccountRepository.save(account);
+            return "Summa " + deposit + " on kontole: " + accountNr + " juurde lisatud. Uus kontojääk on: " + balance;
+
+//            Double balance = bankRepository.getBalance(accountNr);
+//            Double newBalance = balance + deposit;
+//            bankRepository.updateBalance(accountNr, newBalance);
+//            return "Summa " + deposit + " on kontole: " + accountNr + " juurde lisatud. Uus kontojääk on: " + newBalance;
 
         }
     }
@@ -79,10 +99,15 @@ public class BankService {
         } else if (withdraw > bankRepository.getBalance(accountNr)) {
             throw new ApplicationException("Kontol pole piisavalt vahendeid");
         } else {
-            Double balance = bankRepository.getBalance(accountNr);
-            Double newBalance = balance - withdraw;
-            bankRepository.updateBalance(accountNr, newBalance);
-            return "Summa " + withdraw + " on kontolt: " + accountNr + " välja võetud. Uus kontojääk on: " + newBalance;
+            Account account = hibernateAccountRepository.getOne(accountNr);
+            Double balance = account.getBalance() - withdraw;
+            account.setBalance(balance);
+            hibernateAccountRepository.save(account);
+            return "Summa " + withdraw + " on kontole: " + accountNr + " juurde lisatud. Uus kontojääk on: " + balance;
+//            Double balance = bankRepository.getBalance(accountNr);
+//            Double newBalance = balance - withdraw;
+//            bankRepository.updateBalance(accountNr, newBalance);
+//            return "Summa " + withdraw + " on kontolt: " + accountNr + " välja võetud. Uus kontojääk on: " + newBalance;
         }
     }
 
@@ -98,7 +123,7 @@ public class BankService {
         } else if (islocked2) {
             throw new ApplicationException("Ei saa toiminguid teha, konto: " + secondAccountNr + " on lukus.");
         } else if (transfer < 0) {
-            throw new ApplicationException("Ülekantav summa ei või olla negatiivne number") ;
+            throw new ApplicationException("Ülekantav summa ei või olla negatiivne number");
         } else if (transfer > bankRepository.getBalance(firstAccountNr)) {
             throw new ApplicationException("Kontol pole piisavalt vahendeid");
         } else {

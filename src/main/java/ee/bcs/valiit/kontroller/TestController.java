@@ -29,12 +29,12 @@ public class TestController {
 //        return fib;
 //    }
 
-    @GetMapping("sample/hello-world/{nameInUrl}")
-    public String helloWorld(@PathVariable("nameInUrl") String name,
-                             @RequestParam("action") String action) {
-
-        return action + " " + name + ", " + " vali mitmendat fibonacci jada numbrit tahad: ";
-    }
+//    @GetMapping("sample/hello-world/{nameInUrl}")
+//    public String helloWorld(@PathVariable("nameInUrl") String name,
+//                             @RequestParam("action") String action) {
+//
+//        return action + " " + name + ", " + " vali mitmendat fibonacci jada numbrit tahad: ";
+//    }
 
     @GetMapping("stuff/fib") //http://localhost:8080/stuff/fib?x=9
     public int fibonacci(@RequestParam("a") int a) {
@@ -156,6 +156,9 @@ public class TestController {
         return Lesson3.morseCode(tekst);
     }
 
+
+    }
+
 //    //http://localhost:8080/midagi/3/5?a=1&b=9
 //    @GetMapping("midagi/{x}/{y}/")
 //    public int midagi(@PathVariable("x") int x,
@@ -166,7 +169,7 @@ public class TestController {
 //    }
 
 
-}
+
 //public String Lesson3Hard;
 //    Random random = new Random();
 //    int randomNumber = random.nextInt(100);

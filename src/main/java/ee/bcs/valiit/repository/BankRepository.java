@@ -33,11 +33,15 @@ public class BankRepository {
 //        paramMap.put("dbAmount", request.getAmount());
 //        jdbcTemplate.update(sql, paramMap);
 //    }
-//    public String exists(String accountNr) {
-//        String sql = "select account_number from account where account_number = :dbAccno";
+//    public boolean exists(String accountNr) {
+//        String sql = "select count(*) from account where account_number = :dbAccno";
 //        Map<String, Object> paramMap = new HashMap<>();
 //        paramMap.put("dbAccNo", accountNr);
-//        return jdbcTemplate.queryForObject(sql, paramMap, String.class);
+//        Integer testAccount = jdbcTemplate.queryForObject(sql, paramMap, Integer.class);
+//        if (testAccount == null) {
+//            return false;
+//        }
+//        return true;
 //    }
 
     public void lock(String accountNr) {

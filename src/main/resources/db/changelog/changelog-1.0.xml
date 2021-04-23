@@ -6,14 +6,11 @@
 
     <changeSet id="123" author="Arvo">
         <createTable tableName="account">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints unique="true"/>
-            </column>
             <column name="account_number" type="text">
                 <constraints primaryKey="true" unique="true"/>
             </column>
             <column name="client_name" type="text"/>
-            <column name="balance" type="numeric"/>
+            <column name="balance" type="numeric" defaultValue="0"/>
             <column name="locked" type="boolean" defaultValue="false"/>
         </createTable>
     </changeSet>
