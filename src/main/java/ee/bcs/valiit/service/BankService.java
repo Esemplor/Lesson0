@@ -20,8 +20,8 @@ public class BankService {
     @Autowired
     private HibernateAccountRepository hibernateAccountRepository;
 
-    public void createAccount(String accountNr, String name, Double balance, Boolean locked) {
-        bankRepository.createAccount(accountNr, name, balance, locked);
+    public void createAccount(String accountNr, String name, Double balance) {
+        bankRepository.createAccount(accountNr, name, balance);
     }
 
     public void createAccount2() {

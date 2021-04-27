@@ -16,13 +16,13 @@ public class BankRepository {
     private NamedParameterJdbcTemplate jdbcTemplate;
 
 
-    public void createAccount(String accountNr, String name, Double balance, Boolean locked) {
-        String sql = "insert into account(account_number, client_name,  balance, locked) values (:dbAccNo, :dbClientName, :dbAmount, :dbLocked)";
+    public void createAccount(String accountNr, String name, Double balance) {
+        String sql = "insert into account(account_number, client_name,  balance) values (:dbAccNo, :dbClientName, :dbAmount)";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("dbAccNo", accountNr);
         paramMap.put("dbClientName", name);
         paramMap.put("dbAmount", balance);
-        paramMap.put("dbLocked", locked);
+//        paramMap.put("dbLocked", locked);
         jdbcTemplate.update(sql, paramMap);
     }
 

@@ -9,76 +9,220 @@
 
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
+    <input id="accountNumber">
     <li>Insert your name</li>
-    <input name="Customer name" type="text">
+    <input id="customerName">
     <li>Insert initial balance</li>
-    <input name="balance" type="number">
-    <li>Select account status</li>
-    <select>
-        <option>unlocked</option>
-        <option>locked</option>
-    </select>
-    <button type="submit">
+    <input id="balance">
+    <button id="createAccountButton">
         Create
     </button>
+    <script>
+        let accountNumber = document.getElementById("accountNumber");
+        let customerName = document.getElementById("customerName")
+        let balance = document.getElementById("balance")
+        let createAccountButton = document.getElementById("createAccountButton");
+        createAccountButton.onclick = function () {
+
+            fetch("http://localhost:8080/stuff/bank5/createAccount/" + accountNumber.value+"/"+customerName.value+"/"+balance.value)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 
 <h1>Check balance</h1>
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
-    <button type="submit">
+    <input id="balanceAccountNumber">
+    <button id="getBalanceButton">
         Get balance
     </button>
+    <script>
+        let balanceAccountNumber = document.getElementById("balanceAccountNumber");
+        let getBalanceButton = document.getElementById("getBalanceButton");
+        getBalanceButton.onclick = function () {
+            let requestObject = {
+                'accountNumber': balanceAccountNumber.value,
+                'balance': 0
+            }
+            fetch("http://localhost:8080/stuff/bank5/getBalance/" + balanceAccountNumber.value)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 <h1>Lock account</h1>
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
-    <button type="submit">
+    <input name="lockAccountNumber">
+    <button id="lockButton">
         Lock
     </button>
+    <script>
+        let lockAccountNumber = document.getElementById("lockAccountNumber");
+        let lockButton = document.getElementById("lockButton");
+        lockButton.onclick = function () {
+            let requestObject = {
+                'accountNumber': lockAccountNumber.value,
+                'locked': false
+            }
+            let url = "http://localhost:8080/stuff/bank5/lock/" + lockAccountNumber.value;
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 <h1>Unlock account</h1>
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
-    <button type="submit">
+    <input name="unlockAccountNumber">
+    <button id="unlockButton">
         Unlock
     </button>
+    <script>
+        let unlockAccountNumber = document.getElementById("unlockAccountNumber");
+        let unlockButton = document.getElementById("unlockButton");
+        unlockButton.onclick = function () {
+            let requestObject = {
+                'accountNumber': unlockAccountNumber.value,
+                'locked': true
+            }
+            let url = "http://localhost:8080/stuff/bank5/unlock/" + unlockAccountNumber.value;
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 <h1>Deposit money</h1>
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
+    <input id="depositAccountNumber">
     <li>Insert deposit amount</li>
-    <input name="Amount" type="number">
-    <button type="submit">
+    <input id="depositAmount">
+    <button id="depositButton">
         Deposit
     </button>
+    <script>
+        let depositAccountNumber = document.getElementById("depositAccountNumber")
+        let depositAmount = document.getElementById("depositAmount")
+        let depositButton = document.getElementById("depositButton");
+        depositButton.onclick = function () {
+            let requestObject = {
+                'accountNumber': depositAccountNumber.value,
+                'balance': depositAmount.value
+            }
+            let url = "http://localhost:8080/stuff/bank5/account/deposit/" + depositAccountNumber.value + "/" + depositAmount.value
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 <h1>Withdraw money</h1>
 <ul>
     <li>Insert account number</li>
-    <input name="Account number" type="text">
+    <input id="withdrawAccountNumber">
     <li>Insert withdraw amount</li>
-    <input name="Amount" type="number">
-    <button type="submit">
+    <input id="withdrawAmount">
+    <button id="withdrawButton">
         Withdraw
     </button>
+    <script>
+        let withdrawAccountNumber = document.getElementById("withdrawAccountNumber")
+        let withdrawAmount = document.getElementById("withdrawAmount")
+        let withdrawButton = document.getElementById("withdrawButton");
+        withdrawButton.onclick = function () {
+            let requestObject = {
+                'accountNumber': withdrawAccountNumber.value,
+                'balance': withdrawAmount.value
+            }
+            let url = "http://localhost:8080/stuff/bank5/account/withdraw/" + withdrawAccountNumber.value + "/" + withdrawAmount.value
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 <h1>Transfer money</h1>
 <ul>
     <li>Insert account number you want to transfer from</li>
-    <input name="Account number1" type="text">
+    <input id="transferFromAccount">
     <li>Insert account number you want to transfer to</li>
-    <input name="Account number 2" type="text">
+    <input id="transferToAccount">
     <li>Insert amount you want to transfer</li>
-    <input name="Amount" type="number">
-    <button type="submit">
+    <input id="transferAmount">
+    <button id="transferButton">
         Transfer
     </button>
+    <script>
+        let transferFromAccount = document.getElementById("transferFromAccount")
+        let transferToAccount = document.getElementById("transferToAccount")
+        let transferAmount = document.getElementById("transferAmount")
+        let transferButton = document.getElementById("transferButton");
+        transferButton.onclick = function () {
+            let requestObject = {
+                'accountNumber1': transferFromAccount.value,
+                'accountNumber2': transferToAccount.value,
+                'balance': transferAmount.value
+            }
+            let url = "http://localhost:8080/stuff/bank5/account/transfer/" + transferFromAccount.value + "/" + transferToAccount.value + "/" + transferAmount.value
+            let configuration = {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestObject)
+            }
+            fetch(url, configuration)
+                .then(response => response.text())
+                .then(function (response) { // selle asemel ma võiksin kirjutada response => alert(response)
+                    alert(response)
+                })
+        }
+    </script>
 </ul>
 
 </body>
